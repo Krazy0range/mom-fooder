@@ -1,0 +1,34 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Ubuntu Mono';
+}
+
+#top {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: indianred;
+}
+
+#title {
+    font-size: 54px;
+    font-style: italic;
+}
+
+#subtitle {
+    font-size: 21px;
+    font-style: normal;
+    padding: 20px;
+}

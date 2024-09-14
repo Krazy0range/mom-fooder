@@ -36,3 +36,15 @@ body {
 #data {
     padding: 20px;
 }
+
+table {
+    width: 100%;
+}
+
+th {
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f8f8;
+}

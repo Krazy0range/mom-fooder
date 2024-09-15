@@ -1,12 +1,12 @@
 from flask import Flask, render_template
 
-from scraper import Scraper
+from database import Database
 
 app = Flask(__name__, template_folder="templates")
+
+database = Database()
 
 
 @app.route("/")
 def index():
-    scraper = Scraper()
-    scraper.scrape_costco()
-    return render_template("index.html", products=scraper.costco_scraps)
+    return render_template("index.html", products=database.costco_products)

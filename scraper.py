@@ -1,15 +1,11 @@
 import requests
-import json
 from bs4 import BeautifulSoup
 
 
 class Scraper:
 
     def __init__(self):
-        self.costco_scraps = None
-
-    def scrape(self):
-        self.scrape_costco()
+        self.costco_products = None
 
     def scrape_costco(self):
         costco_category_pages = [
@@ -42,10 +38,7 @@ class Scraper:
             page_products = self.scrape_costco_page(page)
             products = products + page_products
 
-        self.costco_scraps = products
-
-        with open("costco.json", "w") as f:
-            json.dump(self.costco_scraps, f)
+        self.costco_products = products
 
     def scrape_costco_page(self, url):
         print(f"scraping {url}")
@@ -59,6 +52,7 @@ class Scraper:
             product["name"] = soup_product.find("img").get("alt")
             try:
                 product["price"] = soup_product.find("div", class_="price").text
+                product["price"] = product["price"].strip()
             except AttributeError:
                 continue
             products.append(product)

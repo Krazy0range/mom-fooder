@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css"/>
-    <script src="https://cdn.jsdelivr.net/npm/fuzzysort@3.0.2/fuzzysort.min.js"></script>
     <meta id="data" data-products="{{products}}">
+    <script src="https://cdn.jsdelivr.net/npm/fuzzysort@3.0.2/fuzzysort.min.js"></script>
 </head>
 <body>
     <div id="top">
@@ -17,20 +17,33 @@
         <div id="subtitle">a fooder for the moms.</div>
         <input type="text" id="search">
     </div>
+
     <div id="products">
         <table id="products-table">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-            </tr>
-            {% for product in products  %}
+            <colgroup>
+                <col span="1" style="width: 80%">
+                <col span="1" style="width: 10%">
+                <col span="1" style="width: 10%">
+            </colgroup>
+            
+            <tbody>
+                <tr>
+                    <th>Product</th>
+                    <th>Store</th>
+                    <th>Price</th>
+                </tr>
+
+                {% for product in products  %}
                 <tr id="product_{{loop.index}}">
                     <td>{{product['name']}}</td>
+                    <td>{{product['store']}}</td>
                     <td>{{product['price']}}</td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
+            </tbody>
         </table>
     </div>
+
     <script src="{{ url_for('static', filename='script.js') }}" type="module"></script>
 </body>
 </html>

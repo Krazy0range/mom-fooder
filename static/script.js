@@ -1,16 +1,14 @@
-import fuzzysort from 'fuzzysort'
-
 let table = document.getElementById('products-table');
 let search = document.getElementById('search');
 search.oninput = updateTable;
 
 function updateTable(e) {
-    let searchText = e.target.value;
-    console.log(searchText);
+    let searchText = e.target.value.toLowerCase();
     for (let row of table.rows) {
         let cell = row.cells[0];
-        // TODO
-        if ( || cell.innerText == "Product")
+        let cellText = cell.innerText.toLowerCase();
+        const result = fuzzysort.single(searchText, cellText);
+        if ((result && result.score >= 0.5) || cell.innerText == "Product" || searchText == '')
             row.style.display = '';
         else
             row.style.display = 'none';

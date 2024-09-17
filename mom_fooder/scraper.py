@@ -59,6 +59,7 @@ class Scraper:
                 continue
             product["name"] = soup_product.find("img").get("alt")
             product["store"] = "Costco"
+            product["url"] = soup_product.find("a", class_="product-image-url")["href"]
             products.append(product)
         try:
             soup_next_page_url = soup.select_one("li.forward > a")["href"]
@@ -113,16 +114,15 @@ class Scraper:
         for soup_product in soup_products:
             product = {}
             product["store"] = "HEB"
-            product["price"] = soup_product.find(
-                "span", class_="sc-d5b5e439-0 jLVXqw"
-            ).text
-            product["name"] = soup_product.find(
-                "span", class_="sc-98cc3b00-1 kBHxUg"
-            ).text
+            product["price"] = soup_product.find("span", class_="sc-d5b5e439-0 jLVXqw").text
+            product["name"] = soup_product.find("span", class_="sc-98cc3b00-1 kBHxUg").text
+            print(product["name"])
+            product["url"] = (
+                "https://www.heb.com"
+                + soup_product.find("a", class_="sc-6ec66450-0 sc-d9ba1e96-24 sc-d9ba1e96-26 jRvnpE dgDxSG hQZwXn sc-6cde8841-0 kzenFx")["href"]
+            )
             products.append(product)
-        soup_next = soup.find(
-            "a", class_="sc-5e657bf5-0 sc-d751beb-0 sc-58b2267-3 NGmVv iKMudD jqcvLk"
-        )
+        soup_next = soup.find("a", class_="sc-5e657bf5-0 sc-d751beb-0 sc-58b2267-3 NGmVv iKMudD jqcvLk")
         if soup_next:
             next_url = "https://www.heb.com" + soup_next["href"]
             products = products + await self.scrape_heb_page(driver, next_url)

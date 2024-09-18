@@ -13,11 +13,9 @@ class Database:
         self.load_products()
 
     def scrape_products(self):
-        # self.costco_products = self.scraper.scrape_costco()
-        self.costco_products = []
         self.heb_products = self.scraper.scrape_heb()
-
-        self.products = self.costco_products + self.heb_products
+        for product in self.heb_products:
+            self.products.append(product)
         self.dump_products()
 
     def load_products(self):
@@ -26,4 +24,8 @@ class Database:
 
     def dump_products(self):
         with open(self.database_file, "w") as f:
+            self._remove_duplicate_products()
             json.dump(self.products, f)
+
+    def _remove_duplicate_products(self):
+        self.products = list({v["name"]: v for v in self.products}.values())

@@ -13,9 +13,9 @@ class Database:
         self.load_products()
 
     def scrape_products(self):
+        self.costco_products = self.scraper.scrape_costco()
         self.heb_products = self.scraper.scrape_heb()
-        for product in self.heb_products:
-            self.products.append(product)
+        self.products += self.costco_products
         self.dump_products()
 
     def load_products(self):

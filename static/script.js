@@ -1,6 +1,11 @@
 let table = document.getElementById('products-table');
 let search = document.getElementById('search');
-search.oninput = updateTable;
+
+search.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter') {
+        updateTable(e);
+    }
+});
 
 function updateTable(e) {
     let searchText = e.target.value.toLowerCase();

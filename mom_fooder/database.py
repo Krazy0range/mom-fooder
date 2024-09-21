@@ -13,9 +13,11 @@ class Database:
         self.load_products()
 
     def scrape_products(self):
-        self.costco_products = self.scraper.scrape_costco()
-        self.heb_products = self.scraper.scrape_heb()
-        self.products += self.costco_products
+        # self.costco_products = self.scraper.scrape_costco()
+        # self.heb_products = self.scraper.scrape_heb()
+        self.walmart_products = self.scraper.scrape_walmart()
+        # self.products = self.costco_products + self.heb_products + self.walmart_products
+        self.products = self.walmart_products
         self.dump_products()
 
     def load_products(self):

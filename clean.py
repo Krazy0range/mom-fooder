@@ -2,10 +2,17 @@ import json
 
 
 def clean_price(price):
-    chars = "foreachs$- "
-    for char in chars:
-        price = price.replace(char, "")
-    return price
+    if type(price) is float:
+        return price
+    price = price.replace("$", "")
+    price = price.replace(",", "")
+    price = price.replace(" ", "")
+    try:
+        i = price.find(next(filter(str.isalpha, price)))
+    except StopIteration:
+        i = -1
+    price = price[0:i]
+    return float(price)
 
 
 file_path = "mom_fooder/database/production_database.json"

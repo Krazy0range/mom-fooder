@@ -66,3 +66,7 @@ input {
 input:focus {
     outline: none;
 }
+
+::placeholder {
+    opacity: 0.25;
+}

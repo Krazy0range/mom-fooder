@@ -15,10 +15,7 @@
     <div id="top">
         <div id="title">mom-fooder</div>
         <div id="subtitle">a fooder for the moms.</div>
-        <div>
-            <div id="count">search {{products|length}} products</div>
-            <input type="text" id="search">
-        </div>
+        <input type="text" id="search" placeholder="search {{products|length}} products">
     </div>
 
     <div id="products">
@@ -36,7 +33,7 @@
                     <th>Price</th>
                 </tr>
 
-                {% for product in products  %}
+                {% for product in products | sort(attribute='price') %}
                 <tr id="product_{{loop.index}}">
                     <td>{{product['name']}}</td>
                     <td>{{product['store']}}</td>

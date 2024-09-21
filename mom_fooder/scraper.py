@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 
 import asyncio
 import nodriver as nodriver
-import time
 
 
 class Scraper:

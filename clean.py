@@ -7,10 +7,8 @@ def clean_price(price):
     price = price.replace("$", "")
     price = price.replace(",", "")
     price = price.replace(" ", "")
-    try:
-        i = price.find(next(filter(str.isalpha, price)))
-    except StopIteration:
-        i = -1
+    price = price + "a"
+    i = price.find(next(filter(str.isalpha, price)))
     price = price[0:i]
     return float(price)
 

@@ -33,11 +33,13 @@
                     <th>Price</th>
                 </tr>
 
-                {% for product in products | sort(attribute='price') %}
+                {% for product in products %}
+                {# for product in products | sort(attribute='price') #}
                 <tr id="product_{{loop.index}}">
                     <td>{{product['name']}}</td>
                     <td>{{product['store']}}</td>
-                    <td>{{ "${:,.2f}".format(product['price']) }}</td>
+                    {#<td>{{ "${:,.2f}".format(product['price']) }}</td>#}
+                     <td>{{product['price']}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

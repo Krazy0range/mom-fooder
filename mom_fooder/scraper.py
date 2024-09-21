@@ -1,7 +1,7 @@
 import requests
 import traceback
+import random
 from bs4 import BeautifulSoup
-
 import asyncio
 import nodriver as nodriver
 
@@ -146,23 +146,34 @@ class Scraper:
             products += page_products
         return products
 
-    async def scrape_walmart_page(self, driver, url):
+    async def scrape_walmart_page(self, driver: nodriver.Browser, url):
         page = await driver.get(url)
         await page.wait_for(selector=".mb0")
-        page_content = await page.get_content()
-        soup = BeautifulSoup(page_content, "html.parser")
-        soup_products = [tag for tag in soup.find_all("div", class_="mb0 ph0-xl pt0-xl bb b--near-white w-25 pb3-m ph1")]
         products = []
-        for soup_product in soup_products:
-            product = {}
-            product["store"] = "Walmart"
-            price_tag = soup_product.find("div", class_="mr1 mr2-xl b black lh-solid f5 f4-l")
-            if not price_tag:
-                price_tag = soup_product.find("div", class_="mr1 mr2-xl b black green lh-solid f5 f4-l")
-            price_subtag = price_tag.find("span", class_="f2")
-            product["price"] = price_subtag.text + "." + price_subtag.next_sibling.text
-            product["name"] = soup_product.find("span", class_="normal dark-gray mb0 mt1 lh-title f6 f5-l lh-copy").text
-            product["url"] = "https://www.walmart.com" + soup_product.find("a", class_="w-100 h-100 z-1 hide-sibling-opacity absolute")["href"]
-            products.append(product)
-        await page.close()
+        while True:
+            page_content = await page.get_content()
+            soup = BeautifulSoup(page_content, "html.parser")
+            soup_products = [tag for tag in soup.find_all("div", class_="mb0 ph0-xl pt0-xl bb b--near-white w-25 pb3-m ph1")]
+            for soup_product in soup_products:
+                product = {}
+                product["store"] = "Walmart"
+                price_tag = soup_product.find("div", class_="mr1 mr2-xl b black lh-solid f5 f4-l")
+                if not price_tag:
+                    price_tag = soup_product.find("div", class_="mr1 mr2-xl b black green lh-solid f5 f4-l")
+                price_subtag = price_tag.find("span", class_="f2")
+                product["price"] = price_subtag.text + "." + price_subtag.next_sibling.text
+                product["name"] = soup_product.find("span", class_="normal dark-gray mb0 mt1 lh-title f6 f5-l lh-copy").text
+                product["url"] = (
+                    "https://www.walmart.com" + soup_product.find("a", class_="w-100 h-100 z-1 hide-sibling-opacity absolute")["href"]
+                )
+                products.append(product)
+                print(product)
+
+            try:
+                button_next = await page.select('a[aria-label="Next Page"]')
+            except TimeoutError:
+                break
+            await button_next.click()
+            await page.wait(random.randint(100, 200) / 100)
+
         return products

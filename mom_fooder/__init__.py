@@ -7,7 +7,7 @@ def create_app():
 
     app = flask.Flask(__name__, template_folder="../templates", static_folder="../static")
 
-    database = Database("mom_fooder/database/production_database.json")
+    database = Database("mom_fooder/database/testing_database.json")
 
     @app.route("/")
     def index():
